@@ -82,7 +82,8 @@ The `read_csv` bits are pretty obvious, except for one thing. What happens in th
 ```{r}
 nbaplayers <- read_csv("data/nbaadvancedplayers2223.csv")
 ```
-**Answer** DESCRIBE THE RESULTS HERE
+
+**Answer** It shows us all the NBA players  who played last season (plus who they played for) and all of their stats that basketball reference tracks
 
 Now we can inspect the data we imported. What does it look like? To do that, we use `head(nbaplayers)` to show the headers and **the first six rows of data**. If we wanted to see them all, we could just simply enter `nbaplayers` and run it.
 
@@ -116,7 +117,7 @@ nbaplayers %>%
   )
 ```
 
-**Answer** DESCRIBE THE RESULTS HERE
+**Answer** Grouping each player by position and saying how many players were each position (or in cases of playing multiple, which two they played.) There are more shooting guards than any other position, according to basketball reference.
 
 So let's walk through that. We start with our dataset -- `nbaplayers` -- and then we tell it to group the data by a given field in the data which we get by looking at either the output of `head` or you can look in the environment where you'll see `nbaplayers`.
 
@@ -133,7 +134,7 @@ nbaplayers %>%
   arrange(desc(total))
 ```
 
-**Answer** NAME A COMPLICATING FACTOR CONTAINED IN THE RESULT & HOW YOU WOULD RESOLVE IT.
+**Answer** There are some players that play multiple positions, and the positions are sometimes meaningless labels that don't accurately reflect their behaviors
 
 So the most common position in the NBA? Shooting guard, followed by center (although it's close between C and small forward).
 
@@ -191,21 +192,21 @@ So when choosing a measure of the middle, you have to ask yourself -- could I ha
 
 There's a ton of things we can do in summarize -- we'll work with more of them as the course progresses -- but here's a few other questions you can ask.
 
-Which position in the NBA plays the most minutes? And what is the highest and lowest minute total for that position? And how wide is the spread between minutes? We can find that with `sum` to add up the minutes to get the total minutes, `min` to find the minimum minutes, `max` to find the maximum minutes and `sd` to find the standard deviation in the numbers. Replace the parts surrounded by * in the codeblock below and then run it.
+Which position in the NBA plays the most minutes? And what is the highest and lowest minute total for that position? And how wide is the spread between minutes? We can find that with `sum` to add up the minutes to get the total minutes, `min` to find the minimum minutes, `max` to find the maximum minutes and `sd` to find the standard deviation in the numbers. Replace the parts surrounded by \* in the codeblock below and then run it.
 
-```{r} 
+```{r}
 nbaplayers %>% 
   group_by(Pos) %>% 
   summarise(
-    total = sum(*COLUMN*), 
+    total = sum(MP), 
     avgminutes = mean(MP), 
-    minminutes = *function*(*COLUMN*),
-    maxminutes = *function*(*COLUMN*),
-    stdev = sd(*COLUMN*)) %>% arrange(desc(total))
+    minminutes = min(MP),
+    maxminutes = max(MP),
+    stdev = sd(MP)) %>% arrange(desc(total))
 ```
 
 So again, no surprise, shooting guards spend the most minutes on the floor in the NBA. They average 951 minutes, but we noted why that's trouble. The minimum is a one-minute wonder, max is some team failing at load management, and the standard deviation is a measure of how spread out the data is. In this case, not the highest spread among positions, but pretty high. So you know you've got some huge minutes players and a bunch of bench players.
 
 Among the top five positions, which one seems the most interesting to you and why? What's a possible story here?
 
-**ANSWER** 
+I think the PF position is most interesting because it might be the least definable, but they still have the highest average minutes among players listed as only one position (the multi-position players are all super small sample size). What does the minute distributions tell us about the optimal roster construction in terms of depth at each position?
