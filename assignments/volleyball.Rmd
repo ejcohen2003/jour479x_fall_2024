@@ -15,7 +15,6 @@ teamquality <- matches |>
   select(team, kills, s, errors, total_attacks, assists, s_err, digs, ret_att, r_err, b_err)
 ```
 
-
 ### Calculate averages
 
 ```{r}
@@ -52,4 +51,3 @@ teamzscore <- teamtotals |>
 ```{r}
 teamzscore |> select(team, TotalZscore, kills_zscore, errors_zscore, s_err_zscore, digs_zscore) |>  arrange(desc(TotalZscore))
 ```
-
