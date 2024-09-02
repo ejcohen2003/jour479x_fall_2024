@@ -38,7 +38,7 @@ maryland_2023 <- matches_2023 |>
   
 ```
 
-2.  What about the same shot stats from last season's first four games? You'll need to load the matches from 2022 - just change the season in the URL - and filter by date to find the first four games. **Maryland shot slightly better in the first four games of 2022 than it did in the 2023 season. This is possibly because those four games didn't include any conference opponents, and the Big Ten competition may be more challenging than the non-conference schedule. Note: I couldn't figure out how to filter by the first four games so I used the internet, where I learned about the slice function.**
+2.  What about the same shot stats from last season's first four games? You'll need to load the matches from 2022 - just change the season in the URL - and filter by date to find the first four games. **Maryland shot better in the first four games of 2022 (47.9 percent) than it did in the 2023 season (42.8 percent). This is possibly because those four games didn't include any conference opponents, and the Big Ten competition may be more challenging than the non-conference schedule. Note: I couldn't figure out how to filter by the first four games so I used the internet, where I learned about the slice function.**
 
 ```{r}
 matches_2022 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensSoccerData/main/data/ncaa_womens_soccer_matchstats_2022.csv")
