@@ -87,3 +87,29 @@ corners_2023 <- matches_2023 |>
     corner_differential=(corners_taken-corners_allowed)
   )
 ```
+
+```{r}
+matches_2024 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensSoccerData/main/data/ncaa_womens_soccer_matchstats_2024.csv")
+```
+
+```{r}
+matches_2024 <- matches_2024 |>
+  mutate(corner_ratio = corners/defensive_corners) |>
+  filter(corner_ratio >=4)
+```
+
+```{r}
+matches_2024 <- matches_2024 |>
+  mutate(corner_dif=corners-defensive_corners)
+```
+
+```{r}
+matches_2024 |>
+    group_by(team)|>
+  summarise(
+    total_shots=sum(sh_att),
+    total_sog=sum(so_g),
+    sog_percentage=(total_sog/total_shots)
+   ) |>
+  arrange(desc(sog_percentage))
+```
