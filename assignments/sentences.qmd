@@ -1,0 +1,21 @@
+```{r}
+library(tidyverse)
+```
+
+```{r}
+matches_2023 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensSoccerData/main/data/ncaa_womens_soccer_matchstats_2023.csv")
+```
+
+```{r}
+matches_2023 |>
+  group_by(team) |>
+  summarize(
+  SoG = sum(so_g),  
+  ShAtt = sum(sh_att),
+  SoGPct = (SoG/ShAtt)*100,
+) |>
+  arrange(desc(SoGPct))
+```
+The Prarie View Lady Panthers led all of NCAA women's soccer in shot on goal percentage in 2023, putting seven out of 10 attempts on target — that's a good thing, right?
+
+The Panthers ultimately won just three of their 16 games, though, as their percentage was inflated by a lack of shot attempts. In turn, it begs the question of if missing target more frequently is actually an alright thing, as a more aggressive approach — rather than Prarie View's seemingly conservative mindset — could lead to a better success rate when those shots are on target.
