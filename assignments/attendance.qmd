@@ -17,7 +17,10 @@ Using the tidyverse's `pivot_longer` function, turn the currently wide data into
 ```{r}
 attendance_longer <- attendance |> pivot_longer(cols = starts_with("20"), names_to = "Year", values_to = "Attendance")
 
-attendance_longer |> filter(Attendance >= 500000)
+attendance_longer |> filter(Attendance >= 500000) |>
+  group_by(Institution) |>
+  summarize(years = n()) |>
+  filter(years == 10)
 
 ```
 
@@ -41,4 +44,21 @@ attendance_wide <- attendance_wide |> mutate(percent = (`2023`-`2019`)/`2019`*10
 
 Some of these clearly are influenced by performance on the field. Below, describe the most interesting results (positive or negative) and what you think might be going on with them. Feel free to do some googling and describe what other data would be helpful to clarify what the best stories here might be. What surprises you about these results?
 
-**ANSWER**
+**ANSWER: I thought that the most interesting team in terms of attendance data was Nebraska. There are only 10 teams that hit the 500,000 attendance threshold in all ten seasons, and a majority of them are schools we'd consider powerhouses, or at least top tier programs — then there's Nebraska. The only Huskers had a winning record three times in that span, but still were able to pack their stadium. I think there's definitely stories to be written about how and why a program that's struggled so much was still able to keep fan interest so high.**
+
+```{r}
+big_ten_with_wins <- read_csv("https://dwillis.github.io/sports-data-files/big_ten_no_2020.csv")
+```
+
+```{r}
+big_ten_averages <- big_ten_with_wins |>
+  group_by(Institution) |>
+  summarize(
+    avg_attendance = mean(Attendance),
+    avg_wins = mean(Wins),
+    sd_attendance = sd(Attendance),
+    sd_wins = sd(Wins)
+  )
+```
+
+I already wrote about it above, but I think Nebraska remains the most interesting team given that they're not winning much but still packing the stands.
