@@ -113,3 +113,39 @@ matches_2024 |>
    ) |>
   arrange(desc(sog_percentage))
 ```
+9/12 Women's Soccer Tests
+
+```{r}
+tg_23 <- matches_2023 |> 
+mutate(total_goals = goals+defensive_goals)
+
+tg_24 <- matches_2024 |>
+mutate(total_goals = goals+defensive_goals)
+
+```
+T test on total goals
+```{r}
+result <- t.test(tg_23$total_goals, tg_24$total_goals, alternative="two.sided", var.equal = TRUE)
+
+
+print(result)
+```
+Scoring is up this year (by about 3/4th's of a goal), and it is significant given how small the result of our p-value is. This may be because most teams haven't gone into conference play. There are far more blowouts and lopsided, high-scoring victories in non-conference play where strong teams face lesser opponents. While the averages were closer when I filtered the date, there still remained a difference of about .6 goals and the p-value remained extremely small.
+
+
+What about for Maryland?
+```{r}
+Maryland_tg_23 <- tg_23 |> filter(team == "Maryland Terrapins, Terps") |>
+mutate(total_goals = goals+defensive_goals)
+
+Maryland_tg_24 <- tg_24 |> filter(team == "Maryland Terrapins, Terps") |>
+mutate(total_goals = goals+defensive_goals)
+
+result <- t.test(Maryland_tg_23$total_goals, Maryland_tg_24$total_goals, alternative="two.sided", var.equal = TRUE)
+
+
+print(result)
+
+```
+We do see a large difference between the average total goals each year, but the p-value tells us that it is not significant. If I had to guess, I would imagine this is because of a smaller sample size. Even when I filter with the date to make it a similar number of games each season, the p-value remains high. I wonder if this is just a result of not having enough games played.
+
