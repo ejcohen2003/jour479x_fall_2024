@@ -149,3 +149,30 @@ print(result)
 ```
 We do see a large difference between the average total goals each year, but the p-value tells us that it is not significant. If I had to guess, I would imagine this is because of a smaller sample size. Even when I filter with the date to make it a similar number of games each season, the p-value remains high. I wonder if this is just a result of not having enough games played.
 
+
+### Correlations
+```{r}
+correlations <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensSoccerData/main/data/ncaa_womens_soccer_matchstats_2024.csv")
+
+```
+
+```{r}
+newcorrelations <- correlations |> 
+  mutate(
+    differential = goals - defensive_goals
+    )
+```
+
+```{r}
+newcorrelations |> summarise(correlation = cor(differential, fouls, method="pearson"))
+
+```
+```{r}
+newcorrelations |> summarise(correlation = cor(differential, so_g, method="pearson"))
+
+```
+```{r}
+net <- lm(differential ~ so_g, data = newcorrelations)
+summary(net)
+```
+
