@@ -175,4 +175,5 @@ newcorrelations |> summarise(correlation = cor(differential, so_g, method="pears
 net <- lm(differential ~ so_g, data = newcorrelations)
 summary(net)
 ```
-
+#Story pitch:
+We know that putting shots on goals generally translates to better results, but Maryland's best scoring output in the last few years came during a game where it didn't put a ton of shots on target. So why did things go so well against VCU and how did Maryland defy such a strong trend?
