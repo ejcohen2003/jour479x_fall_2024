@@ -13,3 +13,51 @@ First-play problems: it appears that teams are inconsistent about how they defin
 ```{r}
 plays_2023 |> filter(drive_number == 1, play_number == 1, play_type != 'Kickoff') |> distinct(home, play_type)
 ```
+```{r}
+logs <- read_csv("https://dwillis.github.io/sports-data-files/footballlogs1123.csv")
+```
+
+```{r}
+logs <- logs |>
+  mutate(differential=TeamScore-OpponentScore)
+```
+
+```{r}
+penalties <- lm(differential ~ Penalties, data = logs)
+summary(penalties)
+```
+This regression is not particularly useful. Although the p-value (0.005767) indicates it's statistically significant, the r-squared (0.0003688) value says that the number of penalties are essentially irrelevant (0.03688%) in determining the score of a game.
+
+```{r}
+mistakes_model <- lm(differential ~ Penalties +TotalTurnovers + DefFirstDownTotal, data=logs)
+summary(mistakes_model)
+```
+```{r}
+#Trying to create a better model than the mistakes model
+
+logs <- logs |>
+  mutate(yard_dif=OffensiveYards-DefYards) |>
+  mutate(to_dif=TotalTurnovers-DefTotalTurnovers)
+
+my_model <- lm(differential ~ yard_dif + to_dif, data=logs)
+summary(my_model)
+```
+I added turnovers and defensive first downs as some of the mistakes to add to penalites, and while that remained significant and increased the r-squared, 35 percent isn't very high. I guessed two stats that could be a better (turnover margin and yard differential), and while that was significantly better than the previous ones (because it remained significant, increased Multiple R-Squared value and decreased residual standard error), the .7843 r-squared isn't anything special, either. There could be some slight multicollinearity involved because if you win the turnover battle you'd likely have more possesions, and thus have more yards, but that didn't feel like the most significant overlap because there are degrees of separation between the two, unlike having total yards and passing yards, for example.
+
+```{r}
+close_games <- logs |>
+  filter(differential >=-8 & differential <=8)
+
+```
+I chose games that were within 8 points as close games, as that means it was a one possession game. While it's completely subjective, I felt this was the right pick because anything more than one possession can't really be close since it requires multiple scores and a stop.
+```{r}
+mistakes_model_close <- lm(differential ~ Penalties +TotalTurnovers + DefFirstDownTotal, data=close_games)
+summary(mistakes_model_close)
+```
+
+
+```{r}
+my_model_close <- lm(differential ~ yard_dif + to_dif, data=close_games)
+summary(my_model_close)
+```
+The residual standard error decreased, but that's the lone positive when adjusting it to close games. The R-squared values decreased tremendously for both models, and any model with an R-squared value like these (0.04197, and 0.1663) feels pretty worthless. I didn't fully expect this, but it does make some sense that they became less valuable models in close games. In blowouts you almost always see a team have more yards and less turnovers, as it was complete dominance. While you wouldn't expect a team that's turned it over more and gained less yards to ever win, it's a lot more plausible that they'd do so in a close game than a narrow one. 
