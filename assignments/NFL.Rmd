@@ -1,0 +1,47 @@
+```{r}
+library(tidyverse)
+library(nflfastR)
+```
+# Terry McLaurin targets by half
+*loading pbp data
+```{r}
+pbp_2022 <- read_rds("https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2022.rds")
+```
+22 first half
+```{r}
+terry_1h_22 <- pbp_2022 |>
+  filter(receiver == "T.McLaurin", week<=3, game_half == "Half1")
+```
+23 data
+```{r}
+pbp_2023 <- read_rds("https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2023.rds")
+```
+23 first half
+```{r}
+terry_1h_23 <- pbp_2023 |>
+  filter(receiver == "T.McLaurin", week<=3, game_half == "Half1")
+```
+24 data
+```{r}
+pbp_2024 <- read_rds("https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_2024.rds") 
+```
+24 first half 
+```{r}
+terry_1h_24 <- pbp_2024 |>
+  filter(receiver == "T.McLaurin", week<=3, game_half == "Half1")
+```
+
+Reflection:
+
+Much to the displeasure of many Washington fans, the Commanders haven't frequently targeted star pass-catcher Terry McLaurin. This has been particularly apparent in the first halves of their games.
+
+McLaurin's received just seven first-half targets through Washington's three games this year. It's a notable drop from that span last season, where the Commanders targeted the receiver 12 times. This isn't a new gripe, though — McLaurin had just six targets in the opening half of his teams first three games in 2022.
+
+```{r}
+pbp_2024 |>
+  filter(!is.na(receiver)) |>
+  group_by(receiver) |>
+  summarize(targets = n()) |>
+  arrange(desc(targets))
+```
+

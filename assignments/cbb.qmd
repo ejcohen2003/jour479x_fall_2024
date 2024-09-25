@@ -70,3 +70,49 @@ logs |>
      ) |> summarise(avg_score = mean(TeamScore), avg_opp = mean(OpponentScore))
 ```
 
+RESIDUALS
+```{r}
+logs <- read_csv("https://dwillis.github.io/sports-data-files/cbblogs1524.csv")
+```
+```{r}
+residualmodel <- logs |> mutate(differential = TeamScore - OpponentScore, FGPctMargin = TeamFGPCT - OpponentFGPCT)
+
+```
+
+```{r}
+fit <- lm(differential ~ FGPctMargin, data = residualmodel)
+summary(fit)
+```
+```{r}
+residualmodel <- residualmodel |> 
+  filter(!is.na(FGPctMargin)) |>
+  mutate(predicted = predict(fit), residuals = residuals(fit))
+
+```
+
+```{r}
+residualmodel |> filter(Conference == 'Big Ten') |> arrange(desc(residuals)) |> select(Date, Team, Opponent, W_L, differential, FGPctMargin, predicted, residuals)
+```
+
+TRYING WITH TRUE SHOOTING PERCENTAGE
+
+```{r}
+logs <- logs |>
+  mutate(
+    True_Sh_Pct = TeamScore/ (2 * TeamFGA + 0.44 * TeamFTA),
+    Opp_true_sh = OpponentScore/ (2 * OpponentFGA + 0.44 * OpponentFTA)
+    ) 
+```
+
+```{r}
+logs <- logs |>
+  mutate(
+    true_sh_differential = True_Sh_Pct - Opp_true_sh
+  )
+```
+
+```{r}
+tsh <- lm(Differential ~ true_sh_differential, data = logs)
+summary(tsh)
+```
+
