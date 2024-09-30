@@ -1,0 +1,54 @@
+```{r}
+library(tidyverse)
+
+```
+```{r}
+matches_2024 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2023.csv")
+```
+Selecting Stats:
+```{r}
+team_avg <- matches_2024 |> 
+  group_by(team) |> 
+  summarise(
+    avg_kills = mean(kills),
+    avg_errors = mean(errors),
+    avg_assists = mean(assists),
+    avg_digs = mean(digs),
+    avg_aces = mean(aces),
+    avg_sets = mean(s)
+    )
+```
+Turning stats to per set
+```{r}
+team_per_sets <- team_avg |>
+  mutate(
+    kills_set = avg_kills/avg_sets,
+    errors_set = avg_errors/avg_sets,
+    digs_set = avg_digs/avg_sets,
+    assists_set = avg_assists/avg_sets,
+    aces_set = avg_aces/avg_sets
+  )
+
+
+
+```
+
+```{r}
+per_set_zscores <- team_per_sets |> 
+  mutate(
+    kills_zscore = as.numeric(scale(kills_set, center = TRUE, scale = TRUE)),
+    errors_zscore = as.numeric(scale(errors_set, center = TRUE, scale = TRUE)) * -1,
+    digs_zscore = as.numeric(scale(digs_set, center = TRUE, scale = TRUE)),
+    assists_zscore = as.numeric(scale(assists_set, center = TRUE, scale = TRUE)),
+    aces_zscore = as.numeric(scale(aces_set, center = TRUE, scale = TRUE)),
+    PerSetZscores = kills_zscore + errors_zscore + digs_zscore + assists_zscore + aces_zscore
+  )
+```
+Top Z scores:
+```{r}
+per_set_zscores |> select(team, PerSetZscores, kills_set, errors_zscore, digs_zscore, assists_zscore, aces_zscore) |>  arrange(desc(PerSetZscores))
+```
+
+We do see a decent amount of mid-majors here, which isn't all that surprising given mid-majors typically play other mid_majors, but they're not necessarily the teams we'd expect (Dayton, Western Michigan, CSUN, Yale).
+
+Maryland slots in at No. 279, which is one spot below Nebraska... so I clearly didn't create a very good model here!
