@@ -62,3 +62,10 @@ big_ten_averages <- big_ten_with_wins |>
 ```
 
 I already wrote about it above, but I think Nebraska remains the most interesting team given that they're not winning much but still packing the stands.
+
+```{r}
+ggplot()+
+  geom_bar(
+    data=top10
+  )
+```

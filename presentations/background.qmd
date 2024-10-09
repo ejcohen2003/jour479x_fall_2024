@@ -1,0 +1,30 @@
+```{r}
+library(tidyverse)
+install.packages("baseballr")
+```
+
+```{r}
+# You can install using the pacman package using the following code:
+if (!requireNamespace('pacman', quietly = TRUE)){
+  install.packages('pacman')
+}
+pacman::p_load_current_gh("BillPetti/baseballr")
+```
+```{r}
+
+  try(fg_pitcher_game_logs(playerid = "", year = 2024))
+
+
+```
+```{r}
+  try(mlb_pbp(game_pk = 632970))
+
+```
+```{r}
+  bref_daily_pitcher("2020-01-01", "2024-10-10")
+```
+
+```{r}
+mlb_pbp(game_pk)
+```
+
