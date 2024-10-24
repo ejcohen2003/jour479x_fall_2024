@@ -1,9 +1,14 @@
 ```{r}
 library(tidyverse)
+install.packages(ggalt)
+```
 
+
+```{r}
+library(ggalt)
 ```
 ```{r}
-matches_2024 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2023.csv")
+matches_2024 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2024.csv")
 ```
 Selecting Stats:
 ```{r}
@@ -52,3 +57,26 @@ per_set_zscores |> select(team, PerSetZscores, kills_set, errors_zscore, digs_zs
 We do see a decent amount of mid-majors here, which isn't all that surprising given mid-majors typically play other mid_majors, but they're not necessarily the teams we'd expect (Dayton, Western Michigan, CSUN, Yale).
 
 Maryland slots in at No. 279, which is one spot below Nebraska... so I clearly didn't create a very good model here!
+
+```{r}
+logs <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/main/data/ncaa_womens_volleyball_matchstats_2023.csv")
+```
+```{r}
+big10 <- c("Nebraska Cornhuskers", "Iowa Hawkeyes", "Minnesota Golden Gophers", "Illinois Fighting Illini", "Northwestern Wildcats", "Wisconsin Badgers", "Indiana Hoosiers", "Purdue Boilermakers", "Ohio St. Buckeyes", "Michigan Wolverines", "Michigan St. Spartans", "Penn St. Nittany Lions", "Rutgers Scarlet Knights", "Maryland Terrapins, Terps")
+
+errors <- logs |>
+  filter(team %in% big10) |> 
+  group_by(team) |> 
+  summarise(
+    total_errors = sum(errors), 
+    opp_errors = sum(defensive_errors))
+```
+
+```{r}
+ggplot() + 
+  geom_dumbbell(
+    data=errors, 
+    aes(y=team, x=total_errors, xend=opp_errors)
+  )
+```
+
