@@ -1,0 +1,24 @@
+```{r}
+library(tidyverse)
+library(dplyr)
+install.packages("baseballr")
+```
+
+Loading in standard stats:
+```{r}
+baseball_ref_24 <- read_csv("https://www.baseball-reference.com/leagues/majors/2024-standard-batting.shtml#players_standard_batting")
+```
+
+Using fangraphs as centralized source for the stats on savant and traditional stats:
+```{r}
+all_stats <- read_csv("~/Documents/GitHub/jour479x_fall_2024/presentations/Fangraphs stats - Sheet1.csv") |>
+  mutate(ab_hr = AB/HR) 
+```
+```{r}
+top_n(all_stats, 10, EV)
+```
+```{r}
+top_n(all_stats, 10, maxEV)
+```
+
+These top 10s give me a general idea of each of the savant stats. My next step is to join these stats with the traditional season stats so I can then figure out what the correlation is between the two.
