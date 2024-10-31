@@ -5,7 +5,7 @@ install.packages("baseballr")
 ```
 I had lots of trouble with my initial plan, so I decided to pivot to something else. I wanted to stay on a baseball topic because it feels like one of the more data-centric sports, and one of the most commonly used baseball data sources is baseball savant, which has become a huge deal among baseball fans. For my project, I wanted to see how much their biggest metrics (selected below) correlate to more widely-known stats like batting average, OPS, home runs, WAR, etc. — and as a result, see which of their metrics are most indicative of success.
 ```{r}
-baseball_savant <- stats |>
+baseball_savant <- read_csv("~/Documents/GitHub/jour479x_fall_2024/presentations/stats.csv") |>
   select(`last_name, first_name`, year, player_id, sweet_spot_percent, barrel_batted_rate, hard_hit_percent, avg_best_speed)
 ```
 
@@ -42,7 +42,7 @@ baseball_ref_24 <- read_csv("https://www.baseball-reference.com/leagues/majors/2
 
 Using fangraphs as centralized source for the stats on savant and traditional stats:
 ```{r}
-all_stats <- read_csv("Fangraphs_stats_Sheet1") |>
+all_stats <- read_csv("~/Documents/GitHub/jour479x_fall_2024/presentations/Fangraphs stats - Sheet1.csv") |>
   mutate(ab_hr = AB/HR)
 ```
 
@@ -52,7 +52,7 @@ Loading in standard stats:
 baseball_ref_24 <- read_csv("https://www.baseball-reference.com/leagues/majors/2024-standard-batting.shtml#players_standard_batting")
 ```
 
-Using fangraphs as centralized source for the stats on savant and traditional stats:
+Using fangraphs as centralized source for the stats on savant and traditional stats — it's not quite as good as savant itself, but struggled to conjoin traditional and savant stats because the names were formatted differently.
 ```{r}
 all_stats <- read_csv("~/Documents/GitHub/jour479x_fall_2024/presentations/Fangraphs stats - Sheet1.csv") |>
   mutate(ab_hr = AB/HR) 
@@ -79,7 +79,7 @@ top_n(all_stats, 10, maxEV) |>
 top_n(all_stats, 10, barrel_pct)
 ```
 
-These top 10s give me a general idea of each of the savant stats. My next step is to join these stats with the traditional season stats so I can then figure out what the correlation is between the two.
+Again, these top 10s give me a general idea of each of the savant stats. My next step is to join these stats with the traditional season stats so I can then figure out what the correlation is between the two.
 
 
 ```{r}
@@ -91,6 +91,7 @@ all_stats_seasons_mean <- all_stats |>
             EV = mean(EV))
 
 ```
+
 ```{r}
 all_stats_seasons_median <- all_stats |>
   group_by(Season) |>
@@ -106,7 +107,7 @@ The most interesting finding here, based on both the means and medians, is how t
 ```{r}
 trad_stats <- read_csv("~/Downloads/trad stats - Sheet1.csv")
 ```
-
+My next step was running regressions to find the significance and correlations between each of the savant stats 
 
 ```{r}
 barrel_avg <- lm(AVG ~ barrel_rate, data = all_stats)
@@ -146,10 +147,6 @@ EV_ops <- lm(OPS ~ EV, data = all_stats)
 summary(EV_ops)
 ```
 
-```{r}
-no_straw <- all_stats |>
-  filter(HR>0)
-```
 
 ```{r}
 EV_hr <- lm(ab_hr ~ EV, data = no_straw)
@@ -180,11 +177,6 @@ summary(maxEV_ops)
 ```
 
 ```{r}
-no_straw <- all_stats |>
-  filter(HR>0)
-```
-
-```{r}
 maxEV_hr <- lm(ab_hr ~ maxEV, data = no_straw)
 summary(maxEV_hr)
 ```
@@ -210,11 +202,6 @@ summary(hh_avg)
 ```{r}
 hh_ops <- lm(OPS ~ hard_hit_rate, data = all_stats)
 summary(hh_ops)
-```
-
-```{r}
-no_straw <- all_stats |>
-  filter(HR>0)
 ```
 
 ```{r}
@@ -283,10 +270,10 @@ judge_joey <- percentile |>
          (Name == "Joey Votto" & Season == 2017)) |>
   select(Name,Season,AVG_percentile,SLG_percentile,OPS_percentile, HR_percentile, hard_hit_percentile, barrel_percentile,EV_percentile,  maxEV_percentile)
 
-judge_24 <- judge_24 
+judge_joey <- judge_joey 
   stat = c("AVG_percentile", "SLG_percentile", "OPS_percentile", "HR_percentile", "Hard Hit_percentile", "Barrel_percentile", "EV_percentile", "Max EV_percentile")
 ```
-Had some help with ChatGPT for the following — couldn't figure out hte clustering aspect.
+Had some help with ChatGPT for the following — couldn't figure out the clustering aspect.
 ```{r}
 judge_joey <- data.frame(
   Name = c("Aaron Judge", "Joey Votto"),
@@ -320,6 +307,47 @@ ggplot(judge_joey, aes(x = Metric, y = Percentile, fill = Name)) +
 ```
 This shows that ulitmately batted ball stats aren't the end all be all even though they can be important.
 
-https://docs.google.com/presentation/d/14fb0_pVB2NoJzjPR-h8WuXchj5FQgQXH-vksb9CSW5c/edit?usp=sharing
+Now let's circle back to Miguel Sano! The season mentioned was 2020, so we'll have to create a different set of percentiles
+```{r}
+percentiles_2020 <- all_stats %>%
+  filter(Season == "2020")|>
+  mutate(
+    AVG_percentile = ntile(AVG, 100),
+    SLG_percentile = ntile(SLG, 100),
+    OPS_percentile = ntile(OPS, 100), 
+    HR_percentile = ntile(HR, 100),
+    hard_hit_percentile = ntile(hard_hit_rate, 100),
+    barrel_percentile = ntile(barrel_rate, 100),
+    EV_percentile = ntile(EV, 100),
+    maxEV_percentile = ntile(maxEV, 100))
+```
 
+```{r}
+sano <- percentiles_2020 |>
+  filter(Name == "Miguel Sanó") |>
+  select(Name,Season,AVG_percentile,SLG_percentile,OPS_percentile, HR_percentile, hard_hit_percentile, barrel_percentile,EV_percentile,  maxEV_percentile)
+```
+
+So why isn't Miguel Sano great? His whiff and K% were both 1%!
+
+```{r}
+dif_percentile <- percentile |>
+  mutate(avg_trad = (AVG_percentile + OPS_percentile + SLG_percentile + HR_percentile)/4,
+         avg_savant = (hard_hit_percentile + barrel_percentile + EV_percentile + maxEV_percentile)/4,
+         difference = avg_trad-avg_savant) |>
+  select(Name, Season, avg_trad, avg_savant, difference)
+  
+```
+
+1. No surprise here that Myles Straw had the lowest average traditional percentile
+2. Cool to see Votto there!
+```{r}
+dif_percentile |>
+  arrange(desc(difference))
+```
+
+```{r}
+dif_percentile |>
+  arrange(difference)
+```
 
