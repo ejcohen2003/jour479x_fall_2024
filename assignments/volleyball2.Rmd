@@ -12,7 +12,7 @@ matches_2024 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVo
 ```
 Selecting Stats:
 ```{r}
-team_avg <- matches_2024 |> 
+team_avg <- matches_2024 |> 8
   group_by(team) |> 
   summarise(
     avg_kills = mean(kills),
@@ -78,5 +78,13 @@ ggplot() +
     data=errors, 
     aes(y=team, x=total_errors, xend=opp_errors)
   )
+```
+```{r}
+rosters <- read_csv("https://thescoop.org/sports-data-files/rosters.csv")
+team_stats <- read_csv("https://thescoop.org/sports-data-files/team_stats.csv")
+teams_with_ids <- read_csv("https://thescoop.org/sports-data-files/teams_with_ids.csv")
+
+rosters_with_team_stats <- rosters |>
+  innter_join(team_stats, join_by(ncaa_id))
 ```
 
