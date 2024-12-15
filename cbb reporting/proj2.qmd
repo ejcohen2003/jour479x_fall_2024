@@ -1,0 +1,1609 @@
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+install.packages("hoopR")
+library(hoopR)
+install.packages("devtools")
+devtools::install_github("jflancer/bigballR")
+library(bigballR)
+library(lubridate)
+library(waffle)
+```
+Looking at data from the 2015-16 season (Willard's first time making the tournament) to now.
+
+```{r}
+
+Maryland2025 <- get_team_schedule(season = "2024-25", team.name = "Maryland")
+
+play_by_play_25 <- get_play_by_play(Maryland2025$Game_ID) |>
+  mutate(willard = Event_Team == "Maryland")
+
+```
+
+```{r}
+opponentthrees2025 <- play_by_play_25 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Maryland')
+
+  
+```
+
+```{r}
+opp_threes_half_25 <- opponentthrees2025|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg25 <- play_by_play_25 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg25 <- kw_fg25 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+
+```
+```
+```{r}
+opp_fg25 <- play_by_play_25 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg25 <- opp_fg25 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+
+```
+```
+
+
+```{r}
+Maryland2024 <- get_team_schedule(season = "2023-24", team.name = "Maryland")
+
+play_by_play_24 <- get_play_by_play(Maryland2024$Game_ID)|>
+  mutate(willard = Event_Team == "Maryland")
+
+```
+
+
+```{r}
+opponentthrees2024 <- play_by_play_24 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Maryland')
+
+  
+```
+
+```{r}
+opp_threes_half_24 <- opponentthrees2024|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+willard_threes_24 <- play_by_play_24 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Maryland')
+
+  
+```
+
+```{r}
+kw_threes_half_24 <- willard_threes_24|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg24 <- play_by_play_24 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg24 <- kw_fg24 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+
+```
+
+```{r}
+opp_fg24 <- play_by_play_24 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg24 <- opp_fg24 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+
+```
+```
+
+
+```{r}
+Maryland2023 <- get_team_schedule(season = "2022-23", team.name = "Maryland")
+
+play_by_play_23 <- get_play_by_play(Maryland2023$Game_ID)|>
+  mutate(willard = Event_Team == "Maryland")
+
+```
+
+```{r}
+willard_threes_23 <- play_by_play_23 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Maryland')
+
+  
+```
+
+```{r}
+kw_threes_half_23 <- willard_threes_23|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+opponentthrees2023 <- play_by_play_23 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Maryland')
+
+  
+```
+
+```{r}
+opp_threes_half_23 <- opponentthrees2023|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+
+kw_fg23 <- play_by_play_23 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg23 <- kw_fg23 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+  
+```
+
+```{r}
+opp_fg23 <- play_by_play_23 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg23 <- opp_fg23 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+SH2022 <- get_team_schedule(season = "2021-22", team.name = "Seton Hall")
+
+play_by_play_22 <- get_play_by_play(SH2022$Game_ID)|>
+  mutate(willard = Event_Team == "Seton Hall")
+
+```
+
+
+```{r}
+opponentthrees2022 <- play_by_play_22 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Seton Hall')
+
+  
+```
+
+```{r}
+threes_half_22 <- opponentthrees2022|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+willard_threes_22 <- play_by_play_22 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Seton Hall')
+
+  
+```
+
+```{r}
+kw_threes_half_22 <- willard_threes_22|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg22 <- play_by_play_22 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg22 <- kw_fg22 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+```
+
+```{r}
+opp_fg22 <- play_by_play_22 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg22 <- opp_fg22 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+SH2021 <- get_team_schedule(season = "2020-21", team.name = "Seton Hall")
+
+play_by_play_21 <- get_play_by_play(SH2021$Game_ID)|>
+  mutate(willard = Event_Team == "Seton Hall")
+```
+
+
+```{r}
+opponentthrees2021 <- play_by_play_21 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Seton Hall')
+
+  
+```
+
+```{r}
+threes_half_21 <- opponentthrees2021|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+willard_threes_21 <- play_by_play_21 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Seton Hall')
+
+  
+```
+
+```{r}
+kw_threes_half_21 <- willard_threes_21|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg21 <- play_by_play_21 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg21 <- kw_fg21 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+```
+
+```{r}
+opp_fg21 <- play_by_play_21 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg21 <- opp_fg21 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+SH2020 <- get_team_schedule(season = "2019-20", team.name = "Seton Hall")
+
+play_by_play_20 <- get_play_by_play(SH2020$Game_ID)|>
+  mutate(willard = Event_Team == "Seton Hall")
+```
+
+
+```{r}
+opponentthrees2020 <- play_by_play_20 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Seton Hall')
+
+  
+```
+
+```{r}
+threes_half_20 <- opponentthrees2020|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+willard_threes_20 <- play_by_play_20 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Seton Hall')
+
+  
+```
+
+```{r}
+kw_threes_half_20 <- willard_threes_20|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg20 <- play_by_play_20 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg20 <- kw_fg20 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+```
+
+```{r}
+opp_fg20 <- play_by_play_20 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg20 <- opp_fg20 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+SH2019 <- get_team_schedule(season = "2018-19", team.name = "Seton Hall")
+
+play_by_play_19 <- get_play_by_play(SH2019$Game_ID)|>
+  mutate(willard = Event_Team == "Seton Hall")
+```
+
+```{r}
+willard_threes_19 <- play_by_play_19 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Seton Hall')
+
+  
+```
+
+```{r}
+kw_threes_half_19 <- willard_threes_19|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+opponentthrees2019 <- play_by_play_19 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Seton Hall')
+
+  
+```
+
+```{r}
+threes_half_19 <- opponentthrees2019|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg19 <- play_by_play_19 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg19 <- kw_fg19 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+```
+
+```{r}
+opp_fg19 <- play_by_play_19 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg19 <- opp_fg19|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+SH2018 <- get_team_schedule(season = "2017-18", team.name = "Seton Hall")
+
+play_by_play_18 <- get_play_by_play(SH2018$Game_ID)|>
+  mutate(willard = Event_Team == "Seton Hall")
+```
+
+```{r}
+willard_threes_18 <- play_by_play_18 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Seton Hall')
+
+  
+```
+
+```{r}
+kw_threes_half_18 <- willard_threes_18|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+opponentthrees2018<- play_by_play_18 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Seton Hall')
+
+  
+```
+
+```{r}
+threes_half_18 <- opponentthrees2018|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg18 <- play_by_play_18 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg18 <- kw_fg18 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+```
+
+```{r}
+opp_fg18 <- play_by_play_18 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg18 <- opp_fg18 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+SH2017 <- get_team_schedule(season = "2016-17", team.name = "Seton Hall")
+
+play_by_play_17 <- get_play_by_play(SH2017$Game_ID)|>
+  mutate(willard = Event_Team == "Seton Hall")
+```
+
+
+```{r}
+opponentthrees2017<- play_by_play_17 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Seton Hall')
+
+  
+```
+
+```{r}
+willard_threes_17 <- play_by_play_17 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Seton Hall')
+
+  
+```
+
+```{r}
+kw_threes_half_17 <- willard_threes_17|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+threes_half_17 <- opponentthrees2017|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg17 <- play_by_play_17 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg17 <- kw_fg17 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+```
+
+```{r}
+opp_fg17 <- play_by_play_17 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg17 <- opp_fg17 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+```{r}
+SH2016 <- get_team_schedule(season = "2015-16", team.name = "Seton Hall")
+
+play_by_play_16 <- get_play_by_play(SH2016$Game_ID)|>
+  mutate(willard = Event_Team == "Seton Hall")
+```
+
+
+```{r}
+opponentthrees2016<- play_by_play_16 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team != 'Seton Hall')|>
+  mutate(willard = Event_Team == "Seton Hall")
+
+  
+```
+
+```{r}
+threes_half_16 <- opponentthrees2016|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+willard_threes_16 <- play_by_play_16 |>
+  filter(Shot_Value == '3') |>
+  filter(Event_Team == 'Seton Hall')
+
+  
+```
+
+```{r}
+kw_threes_half_16 <- willard_threes_16|>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+```{r}
+kw_fg16 <- play_by_play_16 |>
+  filter(Shot_Value != '1') |>
+  filter(willard=TRUE)
+
+kw_fg16 <- kw_fg16 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n()) 
+```
+
+```{r}
+opp_fg16 <- play_by_play_16 |>
+  filter(Shot_Value != '1') |>
+  filter(willard!=TRUE)
+
+opp_fg16 <- opp_fg16 |>
+  group_by(Half_Status, Event_Result) |>
+  summarise(count=n())
+```
+
+
+Given the SIDs tip, let's look at TO's
+
+```{r}
+turnovers25 <- play_by_play_25 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_25 <- turnovers25|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+
+```{r}
+turnovers24 <- play_by_play_24 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_24 <- turnovers24|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+
+```{r}
+turnovers23 <- play_by_play_23 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_23 <- turnovers23|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+```{r}
+turnovers22 <- play_by_play_22 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_22 <- turnovers22|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+
+```{r}
+turnovers21 <- play_by_play_21 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_21 <- turnovers21|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+```{r}
+turnovers20 <- play_by_play_20 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_20 <- turnovers20|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+
+```{r}
+turnovers19 <- play_by_play_19 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_19 <- turnovers19|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+
+```{r}
+turnovers18 <- play_by_play_18 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_18 <- turnovers18|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+
+```{r}
+turnovers17 <- play_by_play_17 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_17 <- turnovers17|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+
+```{r}
+turnovers16 <- play_by_play_16 |>
+  filter(Event_Type == 'Turnover')
+```
+
+```{r}
+to_half_16 <- turnovers16|>
+  group_by(Half_Status, willard) |>
+  summarise(count=n())
+```
+Well that was disappointing! 
+
+```{r}
+rebs25 <- play_by_play_25 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+
+reb_half_25 <- rebs25 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs24 <- play_by_play_24 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_24 <- rebs24 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs23 <- play_by_play_23 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_23 <- rebs23 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs22 <- play_by_play_22 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_22 <- rebs22 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs21 <- play_by_play_21 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_21 <- rebs21 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs20 <- play_by_play_20 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_20 <- rebs20 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs19 <- play_by_play_19 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_19 <- rebs19 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs18 <- play_by_play_18 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_18 <- rebs18 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs17 <- play_by_play_17 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_17 <- rebs17 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+```{r}
+rebs16 <- play_by_play_16 |>
+  filter(str_detect(Event_Type, "Rebound"),
+  Event_Type != "Deadball Rebound")
+  
+reb_half_16 <- rebs16 |>
+  group_by(Half_Status, willard, Event_Type) |>
+  summarise(count=n())
+```
+
+Used chatgpt to convert the stat differentials into a better format:
+```{r}
+kw3s <- read_csv("kw3s.csv")
+opp3s <- read_csv("opp3s.csv")
+oppfgs <- read_csv("oppfgs.csv")
+turnovers <- read_csv("turnovers.csv")
+rebounds <- read_csv("rebounds.csv")
+```
+
+```{r}
+kw3s <- kw3s |>
+mutate (
+
+`1H makes` = as.numeric(`1H makes`),
+`1H misses` = as.numeric(`1H misses`),
+`2H makes` = as.numeric(`2H makes`),
+`2H misses` = as.numeric(`2H misses`),
+attempts_1h = `1H makes`+`1H misses`,
+attempts_2h = `2H makes`+`2H misses`,
+attempts_dif = attempts_2h - attempts_1h
+)
+```
+
+```{r}
+opp3s <- opp3s |>
+mutate (
+
+`1H makes` = as.numeric(`1H makes`),
+`1H misses` = as.numeric(`1H misses`),
+`2H makes` = as.numeric(`2H makes`),
+`2H misses` = as.numeric(`2H misses`),
+`1H pct` = as.numeric(`1H pct`),
+`2H pct` = as.numeric(`2H pct`),
+attempts_1h = `1H makes`+`1H misses`,
+attempts_2h = `2H makes`+`2H misses`,
+attempts_dif = attempts_2h - attempts_1h
+)
+```
+```{r}
+
+opp3s <- opp3s |>
+  mutate(`d1avg` = case_when(
+    Season == "2023-24" ~ 33.8,
+    Season == "2022-23" ~ 34.0,
+    Season == "2021-22" ~ 33.6,
+    Season == "2020-21" ~ 33.8,
+    Season == "2019-20" ~ 33.3,
+    Season == "2018-19" ~ 34.4,
+    Season == "2017-18" ~ 35.1,
+    Season == "2016-17" ~ 35.0,
+    Season == "2015-16" ~ 34.7,
+  ))
+
+```
+
+One of the most notable half-by-half differences was the opponent 3-point%. Let's try to visualize that:
+```{r}
+ggplot() +
+  geom_line(data = opp3s, aes(x = Season, y = `1H pct`, group = 1, color = "1st Half")) +
+  geom_line(data = opp3s, aes(x = Season, y = `2H pct`,  group = 1,color = "2nd Half")) +
+  geom_line(data = opp3s, aes(x = Season, y = `d1avg`,  group = 1,color = "Division I Average")) +
+  scale_color_manual(
+    values = c("1st Half" = "red", "2nd Half" = "orange", "Division I Average" = "gray")
+  ) +
+  scale_y_continuous(limits = c(25, 40)) +
+  labs(
+    title = "A sharp change midway through", 
+    x = "Season", 
+    y = "Opponent 3-point percentage",
+    color = "Legend"
+  ) +
+  theme_minimal()
+```
+
+
+```{r}
+
+#
+half_scores25 <- play_by_play_25 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_25 <- half_scores25 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_ot = NA) %>% 
+  mutate(opp_ot = NA) %>% 
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+
+
+```
+```{r}
+half_scores24 <- play_by_play_24 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_24 <- half_scores24 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+
+
+```
+```{r}
+half_scores23 <- play_by_play_23 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_23 <- half_scores23 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+```
+
+```{r}
+half_scores22 <- play_by_play_22 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_22 <- half_scores22 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+```
+
+
+```{r}
+half_scores21 <- play_by_play_21 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_21 <- half_scores21 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+
+```
+```{r}
+half_scores20 <- play_by_play_20 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_20 <- half_scores20 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_ot = NA) %>% 
+  mutate(opp_ot = NA) %>% 
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+```
+```{r}
+half_scores19 <- play_by_play_19 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_19 <- half_scores19 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+```
+```{r}
+half_scores18 <- play_by_play_18 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_18 <- half_scores18 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+```
+```{r}
+half_scores17 <- play_by_play_17 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_17 <- half_scores17 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+```
+
+
+```{r}
+#
+half_scores16 <- play_by_play_16 |>
+  filter(Event_Result == 'made') |>
+  group_by(Date, Half_Status, willard) |>
+  summarise(Points = sum(Shot_Value)) 
+  
+half_comps_16 <- half_scores16 |> mutate(
+    score = case_when(
+      willard == TRUE & Half_Status == 1 ~ "willard_1h",
+      willard == FALSE & Half_Status == 1 ~ "opp_1h",
+      willard == TRUE & Half_Status == 2 ~ "willard_2h",
+      willard == FALSE & Half_Status == 2 ~ "opp_2h",
+      willard == TRUE & Half_Status == 3 ~ "willard_ot",
+      willard == FALSE & Half_Status == 3 ~ "opp_ot",
+      willard == TRUE & Half_Status == 4 ~ "willard_2ot",
+      willard == FALSE & Half_Status == 4 ~ "opp_2ot"
+    )
+  ) |>
+  select(Date, score, Points) |>
+  pivot_wider(
+    names_from = score,
+    values_from = Points,
+    values_fill = list(points = 0) 
+  ) |>
+  group_by(Date)|>
+  mutate(willard_2ot = NA) %>% 
+  mutate(opp_2ot = NA) %>% 
+  fill(willard_1h, willard_2h, willard_ot, willard_2ot, opp_1h, opp_2h,opp_ot,opp_2ot, .direction = "downup") %>%
+  distinct(Date, .keep_all = TRUE) |>
+  mutate(Date = mdy(Date)) %>% 
+  mutate(willard_ot = replace_na(willard_ot, 0)) |>
+  mutate(opp_ot = replace_na(opp_ot, 0)) |>
+  mutate(willard_2ot = replace_na(willard_2ot, 0)) |>
+  mutate(opp_2ot = replace_na(opp_2ot, 0)) |>
+  summarize(willard_1h, opp_1h, willard_2h, opp_2h, willard_ot, opp_ot, willard_2ot, opp_2ot) |>
+  mutate(h1_dif = (willard_1h-opp_1h),
+        h2_dif = (willard_2h-opp_2h),
+        willard_final = (willard_1h+willard_2h+willard_ot+willard_2ot),
+        opp_final = (opp_1h+opp_2h+opp_ot+opp_2ot),
+        willard_win = ifelse(willard_final > opp_final, TRUE, FALSE)
+  )
+```
+```{r}
+library(dplyr)
+
+all_years_half_comps <- bind_rows(
+  half_comps_16, half_comps_17, half_comps_18, 
+  half_comps_19, half_comps_20, half_comps_21, 
+  half_comps_22, half_comps_23, half_comps_24, half_comps_25
+)
+
+```
+
+Now I have Willard's entire game log! Time to look at how he does in each half.
+```{r}
+all_years_half_comps |>
+  summarise(
+        mean(h1_dif),
+        mean(h2_dif)
+        )
+```
+
+So the difference here isn't that significant. But this might be skewed by games that are decided by halftime — so let's take a look at games that aren't 20-point-plus differentials at HT
+
+```{r}
+all_years_half_comps |>
+  filter(h1_dif>-20, 
+         h1_dif<20) |>
+   summarise(
+        mean(h1_dif),
+        mean(h2_dif)
+        )
+```
+
+That certainly skews things. But a one-point difference isn't necessarily that significant. What about how his teams do after entering halfime trailing?
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0) |>
+  summarise(mean(h2_dif))
+```
+That's pretty interesting. Averaging a +3.3 differential (especially given the sheer number of games) feels significant. What about his ability to win games when trailing?
+```{r}
+all_years_half_comps <- all_years_half_comps %>% mutate(result = if_else(willard_win, "win", "loss"))
+#So I can count(n)
+```
+
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0) |>
+  group_by(result)|>
+  summarise(count=n())
+
+```
+
+Ok, so this record isn't great... But that's understandable given his team is trailing. What about when it's trailing in close games?
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0, h1_dif>-10) |>
+  group_by(result)|>
+  summarise(count=n())
+```
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0, h1_dif>-5) |>
+  group_by(result)|>
+  summarise(count=n())
+```
+
+This is the first example of a point deficit where Willard is above .500. Having a winning record when trailing by 1-4 points is somewhat indicative that he's a better second half coach.
+
+What about in close games in general?
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<10, h1_dif>-10) |>
+  group_by(result)|>
+  summarise(count=n())
+```
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<5, h1_dif>-5) |>
+  group_by(result)|>
+  summarise(count=n())
+```
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<7, h1_dif>-7) |>
+  group_by(result)|>
+  summarise(count=n())
+```
+This feels somewhat significant at first glance — the odds of Willard's team winning as long as the game is close seems pretty favorable. At the same time, it's possible that's just because he enters halftime with a lead more often than not.
+
+```{r}
+all_years_half_comps <- all_years_half_comps %>% mutate(h2_res = if_else(h2_dif > 0, "positive", "negative"))
+
+```
+
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0) |>
+  group_by(h2_res)|>
+  summarise(count=n())
+```
+
+This is a pretty significant margin — if Willard's teams enter halftime trailing, it's pretty likely they'll outscore their opponent after the break. But maybe teams with a bad first half generally outperform their opponents in the second? So let's take a look at how Willard's opponents do when he outscores them in the first half.
+
+```{r}
+all_years_half_comps |>
+  filter(h1_dif>0) |>
+  group_by(h2_res)|>
+  summarise(count=n())
+```
+So the answer to the last question is nope — Willard is more likely to have a positive point differential in the second half after entering halftime trailing, while the same is not true for his opponents. Now let's take a look at season by season info:
+
+
+```{r}
+all_years_half_comps <- all_years_half_comps |> 
+  mutate(
+    season = case_when(
+      Date >= as.Date("2015-10-01") & Date <= as.Date("2016-04-30") ~ 2016,
+      Date >= as.Date("2016-10-01") & Date <= as.Date("2017-04-30") ~ 2017,
+      Date >= as.Date("2017-10-01") & Date <= as.Date("2018-04-30") ~ 2018,
+      Date >= as.Date("2018-10-01") & Date <= as.Date("2019-04-30") ~ 2019,
+      Date >= as.Date("2019-10-01") & Date <= as.Date("2020-04-30") ~ 2020,
+      Date >= as.Date("2020-10-01") & Date <= as.Date("2021-04-30") ~ 2021,
+      Date >= as.Date("2021-10-01") & Date <= as.Date("2022-04-30") ~ 2022,
+      Date >= as.Date("2022-10-01") & Date <= as.Date("2023-04-30") ~ 2023,
+      Date >= as.Date("2023-10-01") & Date <= as.Date("2024-04-30") ~ 2024,
+      Date >= as.Date("2024-10-01") & Date <= as.Date("2025-04-30") ~ 2025,
+      TRUE ~ NA_integer_  
+    )
+  )
+
+```
+
+
+```{r}
+all_years_half_comps |>
+  group_by(season) |>
+  summarise(
+        mean(h1_dif),
+        mean(h2_dif)
+        )
+```
+
+Removing 1H blowouts:
+
+```{r}
+all_years_half_comps |>
+  group_by(season) |>
+  filter(h1_dif>-20, 
+         h1_dif<20) |>
+   summarise(
+        mean(h1_dif),
+        mean(h2_dif)
+        )
+```
+
+```{r}
+yrs_down_ht <- all_years_half_comps |>
+  group_by(season) |>
+  filter(h1_dif<0) |>
+  summarise(avg=mean(h2_dif)) |>
+  filter(season !=2025)
+```
+The 2020 mark seems pretty interesting. It's also worth noting that this was Willard's best team to date.
+
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0) |>
+  group_by(season, result)|>
+  summarise(count=n())
+
+```
+Again, 2020 is the year that stands out — Seton Hall had a winning record (9-7) when entering halftime trailing.
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0, h1_dif>-10) |>
+  group_by(season,result)|>
+  summarise(count=n())
+```
+
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0, h1_dif>-5) |>
+  group_by(season,result)|>
+  summarise(count=n())
+```
+
+
+```{r}
+all_years_half_comps |>
+  filter(h1_dif<0) |>
+  group_by(season, h2_res)|>
+  summarise(count=n())
+```
+In games he's trailed at halftime, he's outscored opponents in the 2H more often than not in all but one year (2021, which was an even split)
+
+Making new set so it's easy to display — put letters in front so it's displayed in the order I want it to be:
+```{r}
+avgs <- all_years_half_comps |>
+summarise(
+a_avg_willard_1h = mean(willard_1h),
+b_avg_opp_1h = mean(opp_1h),
+c_avg_willard_2h = mean(willard_2h),
+d_avg_opp_2h = mean(opp_2h)
+) |>
+ pivot_longer(
+    cols = everything(), 
+    names_to = "TeamHalf",
+    values_to = "AvgPts"
+    )
+```
+
+Picking most interesting parts and turning it into more of a story (couldn't fit a majority of findings together, but tried to identify the best parts and piece them together): 
+
+
+
+
+
+
+Anytime Maryland men's basketball wins a big game, there's a good chance you'll see a befuddling tweet — "Kevin Willard. More adjustments than a chiropractor," CBS sports college basketball reporter Jon Rothstein often posts. But what does it mean? How effective are Willard's mid-game adjustments? Statistically speaking, what do those lead to?
+
+```{r}
+ggplot() + 
+  geom_bar(
+    data = avgs, 
+    aes(x = TeamHalf, weight = AvgPts)
+  ) +
+   scale_x_discrete(
+    labels = c(
+      "a_avg_willard_1h" = "Willard - 1st Half",
+      "b_avg_opp_1h" = "Opponent - 1st Half",
+      "c_avg_willard_2h" = "Willard - 2nd Half",
+      "d_avg_opp_2h" = "Opponent - 2nd Half"
+    )
+  )+
+  labs(
+    title = "No major difference in scoring margin", 
+    x = "Team & half", 
+    y = "Average Points from 2016-2025"
+  )
+```
+Since the 2015-16 season — Willard's first time making March Madness, which he's done six times in the nine years since — the averages don't indicate any notable differences between the halves (scoring margin was 0.4 points better in the second half). Even if you remove the first half blowouts, the margin is still barely over one point.
+
+But other numbers suggest Willard is a better coach after the break and that he does make positive changes in the locker room.
+
+```{r}
+down_at_half <- c("positive"=83, "negative"=47)
+waffle(
+        down_at_half, 
+        rows = 5, 
+        title="Second half scoring margin after losing at halftime", 
+        xlab="1 square = 1 game", 
+        colors = c("green", "red")
+)
+```
+It'd be smart to bet on Willard's teams to outperform their opponent in the second half after entering halftime facing a deficit (83-47) — but that doesn't mean his teams will win the game, as he's 46-84 after trailing at halftime since the start of the 2015-16 season. So he may be making adjustments, but they don't seem to translate to an extreme amount of success.
+
+There are few things Willard's teams are consistently better at in the second half. The turnover margin has generally been worse and the rebounding margins have gone back and forth over the years. But it's unsurprising that the biggest difference between the halves has been on the defensive end.
+
+That's where Willard has found the most success. He's on pace to finish with a better defensive KenPom ranking than offensive for the eighth time in 10 years. 
+
+```{r}
+ggplot() +
+  geom_line(data = opp3s, aes(x = Season, y = `1H pct`, group = 1, color = "1st Half")) +
+  geom_line(data = opp3s, aes(x = Season, y = `2H pct`,  group = 1,color = "2nd Half")) +
+  geom_line(data = opp3s, aes(x = Season, y = `d1avg`,  group = 1,color = "DI Average")) +
+  scale_color_manual(
+    values = c("1st Half" = "red", "2nd Half" = "orange", "DI Average" = "gray")
+  ) +
+  scale_y_continuous(limits = c(25, 40)) +
+  labs(
+    title = "A sharp change midway through", 
+    x = "Season", 
+    y = "Opponent 3-point percentage",
+    color = "Legend"
+  ) +
+  theme_minimal()
+```
+
+Willard's opponents have struggled to convert from beyond the arc, and in recent years, that's been most evident in the second half. Why is that?
+
+"I have a great halftime speech," Willard said jokingly "No, we watch film at halftime. And I've gotten used to utilizing  film in the huddles, which I think is is great. It takes some time [to learn the technology] and I'm still not all the way there yet with using it, but I'm a big believer, we just go in and watch what teams are doing against us. ... These guys have been very good at halftime of understanding what teams are trying to do, and they've been very good at [making] the adjustments we've made at halftime."
+
+Ironically, the biggest positive difference came last year — Willard's first losing season since 2012-13. But as a whole, his best second-half teams have been his best overall teams.
+
+```{r}
+ggplot() + 
+  geom_bar(
+    data = yrs_down_ht, 
+    aes(x =season, weight = avg)
+  ) +
+  scale_x_continuous(breaks=c(2015,2016,2017,2018,2019,2020,2021,2022,2023,2024)) + 
+
+  labs(
+    title = "2019-20 team had winning record when trailing at half", 
+    subtitle = "Willard, Seton Hall went 9-7 after entering the lockerroom with a deficit.",
+    caption = "In the last decade, none of Willard's teams had a negative 2H scoring margin after losing at halftime.",  
+    x = "Season", 
+    y = "AVG 2H scoring margin when down at half",
+  )
+```
+
+Though no others had a negative margin, none mirrored the 2019-20 season. It was also the year where the Pirates were co-Big East champions, and would've earned the highest seed in March Madness under Willard.
+
+Willard's own assessment of his halftime changes doesn't make it seem like he's any sort of chiropractor.
+
+"We just try to make minor adjustments nothing major. We always go into each game with two different game plans. Sometimes the first half [game plan] works... Sometimes it doesn't and you have to make a change."
+
+It's possible that the adjustments Rothstein refers to have more to do with Willard's ability to change his scheme to fit his roster every year. That's something that the reporter has consistently praised about Willard, and is remarkably important in the transfer portal era.
+
+Regarding in-game adjustments, Willard's proved to be a better second-half coach. Is he a chiropractor, though? I — and the numbers — would say not quite.

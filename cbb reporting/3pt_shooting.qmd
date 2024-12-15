@@ -1,0 +1,43 @@
+```{r}
+library(tidyverse)
+library(Hmisc)
+```
+
+Loading data:
+```{r}
+cbb_data <- read_csv("https://dwillis.github.io/sports-data-files/cbblogs1524.csv")
+
+```
+Average 3pt shooting by year:
+```{r}
+three_pct <- cbb_data |>
+  group_by(Season) |>
+  summarise(avg_three_pct=sum(Team3P)/sum(Team3PA))
+```
+
+Filtering to Seton Hall
+```{r}
+seton_hall <- cbb_data |>
+  filter(Team =="Seton Hall")
+```
+Seton Hall shooting (Willard coach thru 2021-2022)
+```{r}
+seton_hall_threes <- seton_hall |>
+  group_by(Season) |>
+  summarise(sh_avg_three_pct=sum(Team3P)/sum(Team3PA),
+            opp_threes=sum(Opponent3P)/sum(Opponent3PA))
+```
+Filtering to Maryland
+```{r}
+maryland <- cbb_data |>
+  filter(Team =="Maryland")
+```
+Maryland shooting(Willard coach since 2022-23)
+```{r}
+ maryland_threes <- maryland |>
+  group_by(Season) |>
+  summarise(sh_avg_three_pct=sum(Team3P)/sum(Team3PA),
+            opp_threes=sum(Opponent3P)/sum(Opponent3PA))
+```
+
+

@@ -1,0 +1,87 @@
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+install.packages("hoopR")
+library(hoopR)
+install.packages("devtools")
+devtools::install_github("jflancer/bigballR")
+library(bigballR)
+library(lubridate)
+
+```
+
+One of the most notable half-by-half differences was the opponent 3-point%. Let's try to visualize that:
+```{r}
+ggplot() +
+  geom_line(data = opp3s, aes(x = Season, y = `1H pct`, group = 1, color = "1st Half")) +
+  geom_line(data = opp3s, aes(x = Season, y = `2H pct`,  group = 1,color = "2nd Half")) +
+  geom_line(data = opp3s, aes(x = Season, y = `d1avg`,  group = 1,color = "DI Average")) +
+  scale_color_manual(
+    values = c("1st Half" = "red", "2nd Half" = "orange", "DI Average" = "gray")
+  ) +
+  scale_y_continuous(limits = c(25, 40)) +
+  labs(
+    title = "A sharp change midway through", 
+    x = "Season", 
+    y = "Opponent 3-point percentage",
+    color = "Legend"
+  ) +
+  theme_minimal()
+
+```
+```{r}
+ggplot() + 
+  geom_bar(
+    data=avgs, 
+    aes(x = reorder(TeamHalf, 'avg_willard_1h'), weight=AvgPts)
+  )
+
+```
+
+```{r}
+ggplot() + 
+  geom_bar(
+    data = avgs, 
+    aes(x = TeamHalf, weight = AvgPts)
+  ) +
+   scale_x_discrete(
+    labels = c(
+      "a_avg_willard_1h" = "Willard - 1st Half",
+      "b_avg_opp_1h" = "Opponent - 1st Half",
+      "c_avg_willard_2h" = "Willard - 2nd Half",
+      "d_avg_opp_2h" = "Opponent - 2nd Half"
+    )
+  )+
+  labs(
+    title = "No major difference in scoring margin", 
+    x = "Team & half", 
+    y = "Average Points from 2016-2025"
+  )
+```
+```{r}
+down_at_half <- c("positive"=83, "negative"=47)
+waffle(
+        down_at_half, 
+        rows = 5, 
+        title="Second half scoring margin after losing at halftime", 
+        xlab="1 square = 1 game", 
+        colors = c("green", "red")
+)
+```
+```{r}
+ggplot() + 
+  geom_bar(
+    data = yrs_down_ht, 
+    aes(x =season, weight = avg)
+  ) +
+  scale_x_continuous(breaks=c(2015,2016,2017,2018,2019,2020,2021,2022,2023,2024)) + 
+
+  labs(
+    title = "2019-20 team had winning record when trailing at half", 
+    subtitle = "Willard, Seton Hall went 9-7 after entering the lockerroom with a deficit.",
+    x = "Season", 
+    y = "AVG 2H scoring margin when down at half",
+  )
+```
+
+
